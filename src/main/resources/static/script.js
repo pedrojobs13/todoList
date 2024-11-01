@@ -1,3 +1,4 @@
+let tarefaId = null;
 window.addEventListener("load", function () {
     fetch("http://localhost:8080/v1/api/tarefa", {
         method: "GET",
@@ -20,7 +21,7 @@ window.addEventListener("load", function () {
             <button onclick="apagar(${item.id})">Apagar</button>
             </td>
             <td> 
-            <button onclick="switchModal()" >Editar</button>
+            <button onclick="switchModalEditar(${item.id})">Editar</button>
             </td>
             <td> 
             <button onclick="taskUp(${item.id})">Subir</button>
@@ -52,7 +53,7 @@ window.addEventListener("load", function () {
         });
 });
 
-window.addEventListener("submit", function adicionarTarefa(event) {
+function adicionarTarefa(event) {
     let nome = this.document.getElementById("nome_adicionado").value;
     let custo = this.document.getElementById("custo_adicionado").value;
     let data = this.document.getElementById("dataLimite").value;
@@ -74,22 +75,21 @@ window.addEventListener("submit", function adicionarTarefa(event) {
         .then((json) => {
             window.reload();
         });
-});
+}
 
 
-window.addEventListener("submit", function editarTarefa(event) {
+function editarTarefa() {
 
     let nome = this.document.getElementById("nome_editado").value;
     let custo = this.document.getElementById("custo_editado").value;
     let data = this.document.getElementById("dataLimite_editado").value;
-    let id = this.document.getElementById("id_editado").value;
 
     let _data = {
         nome: nome,
         custo: custo,
         dataLimite: data,
     };
-    fetch(`http://localhost:8080/v1/api/tarefa/${id}`, {
+    fetch(`http://localhost:8080/v1/api/tarefa/${tarefaId}`, {
         method: "PUT",
         body: JSON.stringify(_data),
         headers: {"Content-type": "application/json;charset=UTF-8"},
@@ -100,7 +100,7 @@ window.addEventListener("submit", function editarTarefa(event) {
         .then((json) => {
             window.reload();
         });
-});
+}
 
 
 function apagar(id) {
@@ -136,8 +136,7 @@ function taskDown(id) {
         .then((json) => console.log(json));
 }
 
-
-btn.addEventListener('click', function switchModal() {
+function switchModal() {
     const modal = document.querySelector('.modal')
 
     const actualStyle = modal.style.display
@@ -148,7 +147,23 @@ btn.addEventListener('click', function switchModal() {
     if (actualStyle !== 'block') {
         modal.style.display = 'block'
     }
-})
+
+}
+
+function switchModalEditar(id) {
+    const modal = document.querySelector('.modal_editar')
+    tarefaId = id;
+    const actualStyle = modal.style.display
+
+    if (actualStyle === 'block') {
+        modal.style.display = 'none'
+    }
+    if (actualStyle !== 'block') {
+        modal.style.display = 'block'
+    }
+
+}
+
 
 window.onclick = function (event) {
     const modal = document.querySelector('.modal')
