@@ -1,7 +1,7 @@
 window.addEventListener("load", function () {
     fetch("http://localhost:8080/v1/api/tarefa", {
         method: "GET",
-        headers: { "Content-type": "application/json;charset=UTF-8" },
+        headers: {"Content-type": "application/json;charset=UTF-8"},
     })
         .then((response) => response.json())
         .then((data) => {
@@ -20,7 +20,7 @@ window.addEventListener("load", function () {
             <button onclick="apagar(${item.id})">Apagar</button>
             </td>
             <td> 
-            <button onclick="editar(${item.id})">Editar</button>
+            <button onclick="switchModal()" >Editar</button>
             </td>
             <td> 
             <button onclick="taskUp(${item.id})">Subir</button>
@@ -65,16 +65,48 @@ window.addEventListener("submit", function adicionarTarefa(event) {
     fetch("http://localhost:8080/v1/api/tarefa", {
         method: "POST",
         body: JSON.stringify(_data),
-        headers: { "Content-type": "application/json;charset=UTF-8" },
+        headers: {"Content-type": "application/json;charset=UTF-8"},
     })
-        .then((response) => response.json())
-        .then((json) => console.log(json));
+        .then((response) => {
+            response.json();
+
+        })
+        .then((json) => {
+            window.reload();
+        });
 });
+
+
+window.addEventListener("submit", function editarTarefa(event) {
+
+    let nome = this.document.getElementById("nome_editado").value;
+    let custo = this.document.getElementById("custo_editado").value;
+    let data = this.document.getElementById("dataLimite_editado").value;
+    let id = this.document.getElementById("id_editado").value;
+
+    let _data = {
+        nome: nome,
+        custo: custo,
+        dataLimite: data,
+    };
+    fetch(`http://localhost:8080/v1/api/tarefa/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(_data),
+        headers: {"Content-type": "application/json;charset=UTF-8"},
+    })
+        .then((response) => {
+            response.json();
+        })
+        .then((json) => {
+            window.reload();
+        });
+});
+
 
 function apagar(id) {
     fetch(`http://localhost:8080/v1/api/tarefa/${id}`, {
         method: "DELETE",
-        headers: { "Content-type": "application/json;charset=UTF-8" },
+        headers: {"Content-type": "application/json;charset=UTF-8"},
     })
         .then((response) => {
             location.reload();
@@ -85,17 +117,18 @@ function apagar(id) {
 function taskUp(id) {
     fetch(`http://localhost:8080/v1/api/tarefa/ordemUp/${id}`, {
         method: "PUT",
-        headers: { "Content-type": "application/json;charset=UTF-8" },
+        headers: {"Content-type": "application/json;charset=UTF-8"},
     })
         .then((response) => {
             location.reload();
         })
         .then((json) => console.log(json));
 }
+
 function taskDown(id) {
     fetch(`http://localhost:8080/v1/api/tarefa/ordemDown/${id}`, {
         method: "PUT",
-        headers: { "Content-type": "application/json;charset=UTF-8" },
+        headers: {"Content-type": "application/json;charset=UTF-8"},
     })
         .then((response) => {
             location.reload();
@@ -104,7 +137,22 @@ function taskDown(id) {
 }
 
 
-//http://localhost:8080/v1/api/tarefa post
-//http://localhost:8080/v1/api/tarefa/1 put
-//http://localhost:8080/v1/api/tarefa/1 delete
-// http://localhost:8080/v1/api/tarefa/ordemUp/4 put
+btn.addEventListener('click', function switchModal() {
+    const modal = document.querySelector('.modal')
+
+    const actualStyle = modal.style.display
+
+    if (actualStyle === 'block') {
+        modal.style.display = 'none'
+    }
+    if (actualStyle !== 'block') {
+        modal.style.display = 'block'
+    }
+})
+
+window.onclick = function (event) {
+    const modal = document.querySelector('.modal')
+    if (event.target === modal) {
+        switchModal()
+    }
+}

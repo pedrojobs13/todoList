@@ -10,6 +10,48 @@
 <h1>TODO LIST</h1>
 <p>Suas tarefas estão listadas abaixo</p>
 
+<button class="modalBtn" onclick="switchModal()">Adicionar tarefa</button>
+
+<div class="modal">
+    <div class="content">
+        <button onclick="switchModal()">&times;</button>
+        <form onsubmit="editarTarefa()">
+            <label for="nome">Nome:</label>
+            <input name="nome" id="nome_adicionado" type="text"/>
+            <br/><br/>
+            <label for="custo">Custo:</label>
+            <input name="custo" id="custo_adicionado" type="number"/>
+            <br/><br/>
+            <label for="data">Data Limite:</label>
+            <input name="dataLimite" id="dataLimite" type="date"/>
+            <br/><br/>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</div>
+
+<div class="modal">
+    <div class="content">
+        <span class="close">&times;</span>
+        <form onsubmit="adicionarTarefa()">
+            <label for="nome">Nome:</label>
+            <input name="nome" id="nome_adicionado" type="text"/>
+            <br/><br/>
+            <label for="custo">Custo:</label>
+            <input name="custo" id="custo_adicionado" type="number"/>
+            <br/><br/>
+            <label for="data">Data Limite:</label>
+            <input name="dataLimite" id="dataLimite" type="date"/>
+            <br/><br/>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+
 <div id="result" class="result-list">
     <table class="table">
         <thead class="table-primary">
@@ -23,18 +65,6 @@
     </table>
 </div>
 
-<form onsubmit="adicionarTarefa()">
-    <label for="nome">Nome:</label>
-    <input name="nome" id="nome_adicionado" type="text"/>
-    <br/><br/>
-    <label for="custo">Custo:</label>
-    <input name="custo" id="custo_adicionado" type="number"/>
-    <br/><br/>
-    <label for="data">Data Limite:</label>
-    <input name="dataLimite" id="dataLimite" type="date"/>
-    <br/><br/>
-    <button type="submit">Enviar</button>
-</form>
 
 <script src="script.js"></script>
 </body>
