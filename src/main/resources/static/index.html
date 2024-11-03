@@ -4,17 +4,24 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>todo list</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles.css"/>
+
 </head>
 <body>
 <h1>TODO LIST</h1>
 <p>Suas tarefas estão listadas abaixo</p>
 
-<button onclick="switchModal()">Adicionar tarefa</button>
+<button onclick="switchModal()">
+    Adicionar Tarefa
+    <i class="fa fa-plus" aria-hidden="true"></i>
+</button>
 
 <div class="modal_editar">
     <div class="content">
-        <button onclick="switchModalEditar()">&times;</button>
+        <div class="close_button">
+            <button onclick="switchModalEditar()">&times;</button>
+        </div>
         <h2>Editar Tarefa</h2>
         <form onsubmit="editarTarefa()">
             <label for="nome_editado">Nome:</label>
@@ -33,7 +40,11 @@
 
 <div class="modal">
     <div class="content">
-        <span class="close">&times;</span>
+
+        <div class="close_button">
+            <button onclick="switchModal()">&times;</button>
+        </div>
+        <h2>Adicionar Tarefa</h2>
         <form onsubmit="adicionarTarefa()">
             <label for="nome">Nome:</label>
             <input name="nome" id="nome_adicionado" type="text"/>
@@ -46,6 +57,17 @@
             <br/><br/>
             <button type="submit">Enviar</button>
         </form>
+    </div>
+</div>
+
+<div class="modal_delete">
+    <div class="content">
+        <div class="close_button">
+            <button onclick="switchModalApagar()">&times;</button>
+        </div>
+        <h2>Tem certeza que deseja apagar a tarefa</h2>
+        <button onclick="apagar()">Sim</button>
+        <button onclick="switchModalApagar()">Não</button>
     </div>
 </div>
 

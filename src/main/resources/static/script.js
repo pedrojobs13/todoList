@@ -1,4 +1,5 @@
 let tarefaId = null;
+let tarefaIdDelete = null;
 window.addEventListener("load", function () {
     fetch("http://localhost:8080/v1/api/tarefa", {
         method: "GET",
@@ -12,22 +13,25 @@ window.addEventListener("load", function () {
                 let rowsHtml = data
                     .map(
                         (item) => `
-          <tr ${item.custoAlto ? 'style="background: yellow"' : ""}>
+          <tr ${item.custoAlto ? 'style="background: yellow"' : ""} class="row_column">
  
-            <td>${item.nome}</td>
+            <td >${item.nome}</td>
             <td>${item.custo}</td>
             <td>${item.dataLimite}</td>
             <td> 
-            <button onclick="apagar(${item.id})">Apagar</button>
+            <button onclick="switchModalApagar(${item.id})"><i class="fa fa-trash" aria-hidden="true"></i>
+</button>
             </td>
             <td> 
-            <button onclick="switchModalEditar(${item.id})">Editar</button>
+            <button onclick="switchModalEditar(${item.id})"><i class="fa fa-pencil" aria-hidden="true"></i>
+</button>
             </td>
             <td> 
-            <button onclick="taskUp(${item.id})">Subir</button>
+            <button onclick="taskUp(${item.id})"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
             </td>
             <td> 
-            <button onclick="taskDown(${item.id})">Descer</button>
+            <button onclick="taskDown(${item.id})"><i class="fa fa-arrow-down" aria-hidden="true"></i>
+</button>
             </td>
           </tr>
         `
@@ -103,8 +107,9 @@ function editarTarefa() {
 }
 
 
-function apagar(id) {
-    fetch(`http://localhost:8080/v1/api/tarefa/${id}`, {
+function apagar() {
+
+    fetch(`http://localhost:8080/v1/api/tarefa/${tarefaIdDelete}`, {
         method: "DELETE",
         headers: {"Content-type": "application/json;charset=UTF-8"},
     })
@@ -170,4 +175,19 @@ window.onclick = function (event) {
     if (event.target === modal) {
         switchModal()
     }
+}
+
+
+function switchModalApagar(id) {
+    const modal = document.querySelector('.modal_delete')
+    tarefaIdDelete = id;
+    const actualStyle = modal.style.display
+
+    if (actualStyle === 'block') {
+        modal.style.display = 'none'
+    }
+    if (actualStyle !== 'block') {
+        modal.style.display = 'block'
+    }
+
 }
