@@ -1,7 +1,7 @@
 let tarefaId = null;
 let tarefaIdDelete = null;
 window.addEventListener("load", function () {
-    fetch("http://localhost:8080/v1/api/tarefa", {
+    fetch("https://todolist-lali.onrender.com/v1/api/tarefa", {
         method: "GET",
         headers: {"Content-type": "application/json;charset=UTF-8"},
     })
@@ -67,7 +67,7 @@ function adicionarTarefa(event) {
         custo: custo,
         dataLimite: data,
     };
-    fetch("http://localhost:8080/v1/api/tarefa", {
+    fetch("https://todolist-lali.onrender.com/v1/api/tarefa", {
         method: "POST",
         body: JSON.stringify(_data),
         headers: {"Content-type": "application/json;charset=UTF-8"},
@@ -93,7 +93,7 @@ function editarTarefa() {
         custo: custo,
         dataLimite: data,
     };
-    fetch(`http://localhost:8080/v1/api/tarefa/${tarefaId}`, {
+    fetch(`https://todolist-lali.onrender.com/v1/api/tarefa/${tarefaId}`, {
         method: "PUT",
         body: JSON.stringify(_data),
         headers: {"Content-type": "application/json;charset=UTF-8"},
@@ -109,7 +109,7 @@ function editarTarefa() {
 
 function apagar() {
 
-    fetch(`http://localhost:8080/v1/api/tarefa/${tarefaIdDelete}`, {
+    fetch(`https://todolist-lali.onrender.com/v1/api/tarefa/${tarefaIdDelete}`, {
         method: "DELETE",
         headers: {"Content-type": "application/json;charset=UTF-8"},
     })
@@ -120,7 +120,7 @@ function apagar() {
 }
 
 function taskUp(id) {
-    fetch(`http://localhost:8080/v1/api/tarefa/ordemUp/${id}`, {
+    fetch(`https://todolist-lali.onrender.com/v1/api/tarefa/ordemUp/${id}`, {
         method: "PUT",
         headers: {"Content-type": "application/json;charset=UTF-8"},
     })
@@ -131,7 +131,7 @@ function taskUp(id) {
 }
 
 function taskDown(id) {
-    fetch(`http://localhost:8080/v1/api/tarefa/ordemDown/${id}`, {
+    fetch(`https://todolist-lali.onrender.com/v1/api/tarefa/ordemDown/${id}`, {
         method: "PUT",
         headers: {"Content-type": "application/json;charset=UTF-8"},
     })
