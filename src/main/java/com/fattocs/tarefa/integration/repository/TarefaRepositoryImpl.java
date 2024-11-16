@@ -1,9 +1,11 @@
 package com.fattocs.tarefa.integration.repository;
 
+import com.fattocs.tarefa.exception.BusinessException;
 import com.fattocs.tarefa.integration.entity.Tarefa;
 import com.fattocs.tarefa.integration.entity.TarefaRowMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -28,12 +30,16 @@ public class TarefaRepositoryImpl implements TarefaRepository {
     }
 
     @Override
-    public void adicionarTarefa(String nome, Double custo, LocalDate data, Integer ordem) {
+    public void adicionarTarefa(String nome, Double custo, LocalDate data, Integer ordem) throws BusinessException {
         var sql = """
                 INSERT INTO tarefa (nome, custo, data_limite, ordem_de_apresentacao)
                 VALUES (?, ?, ?, ?)
                 """;
-        jdbcTemplate.update(sql, nome, custo, data, ordem);
+        try {
+            jdbcTemplate.update(sql, nome, custo, data, ordem);
+        } catch (DataIntegrityViolationException e) {
+            throw new BusinessException("O custo da tarefa não pode ser maior que 99.999.999");
+        }
     }
 
     @Override
@@ -57,31 +63,31 @@ public class TarefaRepositoryImpl implements TarefaRepository {
     @Override
     public Optional<Tarefa> getTarefaById(Long id) {
         String sql = "SELECT id, nome, custo, data_limite, ordem_de_apresentacao FROM tarefa WHERE id = ?";
-        return jdbcTemplate.query(sql, tarefaRowMapper,id).stream().findFirst();
+        return jdbcTemplate.query(sql, tarefaRowMapper, id).stream().findFirst();
 
     }
 
     @Override
     public Optional<Tarefa> getTarefaSobre(Integer order) {
         String sql = """
-            SELECT id, nome, custo, data_limite, ordem_de_apresentacao 
-            FROM tarefa 
-            WHERE ordem_de_apresentacao < ? 
-            ORDER BY ordem_de_apresentacao DESC 
-            LIMIT 1
-            """;
+                SELECT id, nome, custo, data_limite, ordem_de_apresentacao 
+                FROM tarefa 
+                WHERE ordem_de_apresentacao < ? 
+                ORDER BY ordem_de_apresentacao DESC 
+                LIMIT 1
+                """;
         return jdbcTemplate.query(sql, tarefaRowMapper, order).stream().findFirst();
     }
 
     @Override
-    public   Optional<Tarefa> getTarefaAbaixo(Integer order){
+    public Optional<Tarefa> getTarefaAbaixo(Integer order) {
         String sql = """
-            SELECT id, nome, custo, data_limite, ordem_de_apresentacao 
-            FROM tarefa 
-            WHERE ordem_de_apresentacao > ? 
-            ORDER BY ordem_de_apresentacao ASC 
-            LIMIT 1
-            """;
+                SELECT id, nome, custo, data_limite, ordem_de_apresentacao 
+                FROM tarefa 
+                WHERE ordem_de_apresentacao > ? 
+                ORDER BY ordem_de_apresentacao ASC 
+                LIMIT 1
+                """;
         return jdbcTemplate.query(sql, tarefaRowMapper, order).stream().findFirst();
     }
 
@@ -104,7 +110,7 @@ public class TarefaRepositoryImpl implements TarefaRepository {
             jdbcTemplate.update(sql, update.getDataLimite(), update.getId());
         }
 
-        if (update.getNome() != null) {
+        if (update.getNome() != null && !update.getNome().isEmpty()) {
             String sql = "UPDATE tarefa SET nome = ? WHERE id = ?";
             jdbcTemplate.update(sql, update.getNome(), update.getId());
         }

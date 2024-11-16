@@ -1,5 +1,6 @@
 package com.fattocs.tarefa.integration.repository;
 
+import com.fattocs.tarefa.exception.BusinessException;
 import com.fattocs.tarefa.integration.entity.Tarefa;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
 public interface TarefaRepository {
     void deleteTarefa(Long id);
 
-    void adicionarTarefa(String nome, Double custo, LocalDate data, Integer ordem);
+    void adicionarTarefa(String nome, Double custo, LocalDate data, Integer ordem) throws BusinessException;
 
     Collection<Tarefa> listagem();
 
@@ -28,4 +29,6 @@ public interface TarefaRepository {
     Optional<Tarefa> getTarefaAbaixo(Integer order);
 
     void updateOrder(Tarefa tarefaAtual, Tarefa tarefaAcima);
+
+
 }

@@ -1,5 +1,6 @@
 package com.fattocs.tarefa.business.incluir.usecase;
 
+import com.fattocs.tarefa.exception.BusinessException;
 import com.fattocs.tarefa.integration.entity.Tarefa;
 import com.fattocs.tarefa.integration.repository.TarefaRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class IncluirTarefaUseCaseImpl implements IncluirTarefaUseCase {
     private final TarefaRepository tarefaRepository;
 
     @Override
-    public void execute(String nome, Double custo, LocalDate data) {
+    public void execute(String nome, Double custo, LocalDate data) throws BusinessException {
         if (tarefaRepository.countTarefas() == 0) {
             tarefaRepository.adicionarTarefa(nome, custo, data, 1);
             return;

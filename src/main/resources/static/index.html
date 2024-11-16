@@ -19,22 +19,7 @@
 
 <div class="modal_editar">
     <div class="content">
-        <div class="close_button">
-            <button onclick="switchModalEditar()">&times;</button>
-        </div>
-        <h2>Editar Tarefa</h2>
-        <form onsubmit="editarTarefa()">
-            <label for="nome_editado">Nome:</label>
-            <input name="nome_editado" id="nome_editado" type="text"/>
-            <br/><br/>
-            <label for="custo_editado">Custo:</label>
-            <input name="custo_editado" id="custo_editado" type="number"/>
-            <br/><br/>
-            <label for="dataLimite_editado">Data Limite:</label>
-            <input name="dataLimite_editado" id="dataLimite_editado" type="date"/>
-            <br/><br/>
-            <button type="submit">Enviar</button>
-        </form>
+
     </div>
 </div>
 
@@ -45,17 +30,17 @@
             <button onclick="switchModal()">&times;</button>
         </div>
         <h2>Adicionar Tarefa</h2>
-        <form onsubmit="adicionarTarefa()">
-            <label for="nome">Nome:</label>
+        <form>
+            <label for="nome_adicionado">Nome:</label>
             <input name="nome" id="nome_adicionado" type="text"/>
             <br/><br/>
-            <label for="custo">Custo:</label>
-            <input name="custo" id="custo_adicionado" type="number"/>
+            <label for="custo_adicionado">Custo:</label>
+            <input name="custo" id="custo_adicionado" type="number" step="0.01"/>
             <br/><br/>
-            <label for="data">Data Limite:</label>
+            <label for="dataLimite">Data Limite:</label>
             <input name="dataLimite" id="dataLimite" type="date"/>
             <br/><br/>
-            <button type="submit">Enviar</button>
+            <button type="button" onclick="adicionarTarefa()">Enviar</button>
         </form>
     </div>
 </div>
@@ -85,7 +70,7 @@
     </table>
 </div>
 
-
+<ul class="notifications"></ul>
 <script src="script.js"></script>
 </body>
 </html>
